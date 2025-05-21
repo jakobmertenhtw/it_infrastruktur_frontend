@@ -8,11 +8,44 @@ const AddProduct: React.FC = () => {
   const [image, setImage] = React.useState<File | null>(null);
 
   async function submitForm() {
+    // first upload image
+
     if (!name || !description || !price) {
       alert("Please fill all fields");
       return;
     }
 
+    if (image) {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("price", price.toString());
+
+      console.log("Form data to be sent:", formData);
+
+      await fetch(
+        "https://idggvb8375.execute-api.eu-west-1.amazonaws.com/v1/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      )
+        .then(async (response) => {
+          if (response.ok) {
+            console.log(await response.json());
+            alert("Image uploaded successfully");
+          } else {
+            alert("Error uploading image");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Error uploading image");
+        });
+    }
+
+    /*
     const data = {
       name,
       description,
@@ -43,6 +76,7 @@ const AddProduct: React.FC = () => {
         console.error("Error:", error);
         alert("Error adding product");
       });
+    */
   }
 
   return (
@@ -57,6 +91,7 @@ const AddProduct: React.FC = () => {
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) {
+                setImage(file);
                 const reader = new FileReader();
                 reader.onload = function (ev) {
                   const img = document.getElementById(
@@ -69,6 +104,7 @@ const AddProduct: React.FC = () => {
                 };
                 reader.readAsDataURL(file);
               } else {
+                setImage(null);
                 const img = document.getElementById(
                   "preview-img"
                 ) as HTMLImageElement;
@@ -120,10 +156,14 @@ const AddProduct: React.FC = () => {
             onChange={(e) => setPrice(Number(e.target.value))}
           />
         </div>
-        <button onClick={(e) => {
+        <button
+          onClick={(e) => {
             e.preventDefault();
             submitForm();
-        }}>Add Product</button>
+          }}
+        >
+          Add Product
+        </button>
       </form>
     </div>
   );

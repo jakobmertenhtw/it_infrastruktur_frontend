@@ -1,7 +1,8 @@
 import React, { use, useEffect } from "react";
 import "./App.css";
+import { ProductCard } from "./ProductCard";
 
-type Product = {
+export type Product = {
   id: string;
   name: string;
   description: string;
@@ -34,7 +35,6 @@ const AddProduct: React.FC = () => {
   }
 
   async function fetchProducts() {
-
     let url = "https://7kat3yi6ui.execute-api.eu-west-1.amazonaws.com/products";
 
     if (selectedLabels.length > 0) {
@@ -42,16 +42,13 @@ const AddProduct: React.FC = () => {
       url += `?labels=${selectedLabelNames.join(",")}`;
     }
 
-    await fetch(
-      url,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          mode: "cors",
-        },
-      }
-    )
+    await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        mode: "cors",
+      },
+    })
       .then(async (response) => {
         if (response.ok) {
           const data = await response.json();
@@ -98,9 +95,9 @@ const AddProduct: React.FC = () => {
     fetchLabels();
   }, []);
 
-    useEffect(() => {
-      fetchProducts();
-    }, [selectedLabels]);
+  useEffect(() => {
+    fetchProducts();
+  }, [selectedLabels]);
 
   return (
     <div>
@@ -123,15 +120,9 @@ const AddProduct: React.FC = () => {
       </div>
 
       <div className="products-container">
-        {products.map((product) => {
-            return (
-                <div className="product">
-                    <h3>{product.name}</h3>
-                    <p className="product-description">{product.description}</p>
-                    <p className="product-price">{product.price}</p>
-                </div>
-            );
-        })}
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
       </div>
     </div>
   );
