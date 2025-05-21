@@ -45,38 +45,6 @@ const AddProduct: React.FC = () => {
         });
     }
 
-    /*
-    const data = {
-      name,
-      description,
-      price,
-    };
-
-    console.log("Data to be sent:", data);
-
-    await fetch(
-      "https://7kat3yi6ui.execute-api.eu-west-1.amazonaws.com/product",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          mode: "cors",
-        },
-        body: JSON.stringify(data),
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          alert("Product added successfully");
-        } else {
-          alert("Error adding product");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Error adding product");
-      });
-    */
   }
 
   return (
