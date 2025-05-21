@@ -35,6 +35,9 @@ const AddProduct: React.FC = () => {
   }
 
   async function fetchProducts() {
+
+    console.log("Selected labels:", selectedLabels);
+
     let url = "https://7kat3yi6ui.execute-api.eu-west-1.amazonaws.com/products";
 
     if (selectedLabels.length > 0) {

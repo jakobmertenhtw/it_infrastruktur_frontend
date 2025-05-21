@@ -97,7 +97,7 @@ form button:hover {
 }
 
 .product img {
-  max-width: 100%;
+  width: 100%;
   border: 1px solid #ccc;
   border-radius: 10px;
 }
